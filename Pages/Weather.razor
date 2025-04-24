@@ -1,0 +1,124 @@
+﻿@page "/weather/{zip}"
+@using Weather2EB.Data
+@inject WeatherForecastService ForecastService
+@inject ZipService zipService
+
+<PageTitle>Weather forecast</PageTitle>
+
+<div class="Weather">
+ <div class="maincontainer">
+  <div class="clock">
+   <div class="hr">
+    @DateTime.Now.ToString("hh")
+   </div>
+   <div class="min">
+    @DateTime.Now.ToString("mm")
+   </div>
+   <div class="ampmsec">
+    <div class="ampm">
+     @DateTime.Now.ToString("tt")
+    </div>
+    <div class="sec">
+     @DateTime.Now.ToString("ss")
+    </div>
+   </div>
+   <div class="dateContainer">
+    <div class="date">
+     @DateTime.Now.ToString("dd MMM")
+    </div>
+    <div class="year">
+     @DateTime.Now.ToString("ddd yyyy")
+    </div>
+   </div>
+  </div>
+
+  @if (forecasts == null || currentConditions == null)
+ {
+  <p><em>Loading or failed to load...</em></p>
+ }
+ else
+ {
+  
+
+   <div class="currentConainer">
+     <div class="city">
+       Currently in<br />
+       @cityName, @stateName
+     </div>
+     <div class="currentConditions">
+       <div class="currentTemp">
+        @((int)currentConditions.temp)
+       </div>
+       <div class="currentTempLabel">
+      °F
+       </div>
+     </div>
+   </div>
+ }
+</div>
+<div class="credits">
+  Zip codes provided by <a href="https://simplemaps.com/data/us-zips">simplemaps.com</a><br />
+  Forecasts provided by <a href="https://open-meteo.com/">open-meteo.com</a>
+</div>
+</div>
+
+@code {
+ [Parameter]
+ public string? zip { get; set; }
+
+ CityStruct? City;
+ private string? cityName;
+ private string? stateName;
+ private timestampedforcast? currentConditions;
+
+ private List<timestampedforcast>? forecasts;
+
+ private void Tick()
+ {
+  StateHasChanged();
+ }
+
+ private async Task timer()
+ {
+  int counter = 0;
+  while (true)
+  {
+   counter++;
+   if (counter % 60 == 0) await InvokeAsync(updateCurrent);
+   if (counter >= 3600) 
+   {
+     await InvokeAsync(updateForecast);
+     counter = 1;
+   }
+   await Task.Delay(1000);
+   await InvokeAsync(Tick);
+  }
+ }
+
+ private async Task updateForecast()
+ {
+   Console.WriteLine("Updating forecast");
+  if (City == null) return;
+  forecasts = await ForecastService.getForecast(City.lat, City.lng);
+ }
+
+ private async Task updateCurrent()
+ {
+   Console.WriteLine("Updating Current");
+  if (City == null) return;
+  currentConditions = await ForecastService.getCurrent(City.lat, City.lng);
+ }
+
+ protected override async Task OnInitializedAsync()
+ {
+  if (zip == null) return;
+  City = await zipService.getCityFromZip(zip);
+  if (City == null) return;
+  forecasts = await ForecastService.getForecast(City.lat, City.lng);
+  if (forecasts == null) return;
+  cityName = City.City;
+  stateName = City.State;
+  currentConditions = await ForecastService.getCurrent(City.lat, City.lng);
+  _ = timer();
+ }
+}
