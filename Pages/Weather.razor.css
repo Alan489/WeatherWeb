@@ -91,6 +91,12 @@
   top:-20px;
 }
 
+.sunriseSunset {
+  margin-left: auto;
+  width: 30%;
+  font-size:30px!important;
+}
+
 .currentTempLabel {
   position: relative;
   font-size: 50px;
