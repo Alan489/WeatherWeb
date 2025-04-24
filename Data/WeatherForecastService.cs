@@ -39,6 +39,7 @@ namespace Weather2EB.Data
 
    returner.cloud = ret.current.cloud_cover;
    returner.temp = ret.current.temperature_2m;
+   returner.sunstuff = ret.daily;
 
 
    return returner;

@@ -3,6 +3,10 @@
 @inject WeatherForecastService ForecastService
 @inject ZipService zipService
 
+<head>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+</head>
+
 <PageTitle>Weather forecast</PageTitle>
 
 <div class="Weather">
@@ -33,33 +37,41 @@
   </div>
 
   @if (forecasts == null || currentConditions == null)
- {
-  <p><em>Loading or failed to load...</em></p>
- }
- else
- {
-  
+  {
+   <p><em>Loading or failed to load...</em></p>
+  }
+  else
+  {
+
 
    <div class="currentConainer">
-     <div class="city">
-       Currently in<br />
-       @cityName, @stateName
+    <div class="city">
+     Currently in<br />
+     @cityName, @stateName
+    </div>
+    <div class="currentConditions">
+     <div class="currentTemp">
+      @((int)currentConditions.temp)
      </div>
-     <div class="currentConditions">
-       <div class="currentTemp">
-        @((int)currentConditions.temp)
-       </div>
-       <div class="currentTempLabel">
+     <div class="currentTempLabel">
       °F
-       </div>
      </div>
+    </div>
+    <div class="sunriseSunset">
+     <div class="sunrise">
+      <i class="fa-solid fa-sun"></i> @currentConditions.sunstuff.sunrise[0].ToString("h:mm tt")
+     </div>
+     <div class="sunset">
+      <i class="fa-solid fa-moon"></i>@currentConditions.sunstuff.sunset[0].ToString("h:mm tt")
+     </div>
+    </div>
    </div>
- }
-</div>
-<div class="credits">
+  }
+ </div>
+ <div class="credits">
   Zip codes provided by <a href="https://simplemaps.com/data/us-zips">simplemaps.com</a><br />
   Forecasts provided by <a href="https://open-meteo.com/">open-meteo.com</a>
-</div>
+ </div>
 </div>
 
 @code {
@@ -85,10 +97,10 @@
   {
    counter++;
    if (counter % 60 == 0) await InvokeAsync(updateCurrent);
-   if (counter >= 3600) 
+   if (counter >= 3600)
    {
-     await InvokeAsync(updateForecast);
-     counter = 1;
+    await InvokeAsync(updateForecast);
+    counter = 1;
    }
    await Task.Delay(1000);
    await InvokeAsync(Tick);
@@ -97,14 +109,14 @@
 
  private async Task updateForecast()
  {
-   Console.WriteLine("Updating forecast");
+  Console.WriteLine("Updating forecast");
   if (City == null) return;
   forecasts = await ForecastService.getForecast(City.lat, City.lng);
  }
 
  private async Task updateCurrent()
  {
-   Console.WriteLine("Updating Current");
+  Console.WriteLine("Updating Current");
   if (City == null) return;
   currentConditions = await ForecastService.getCurrent(City.lat, City.lng);
  }

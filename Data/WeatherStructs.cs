@@ -7,6 +7,7 @@
   public int precip { get; set; }
   public double windspeed { get; set; }
   public int cloud { get; set; }
+  public dailyStats sunstuff { get; set; }
  }
 
  public class UnitsDeclaration
