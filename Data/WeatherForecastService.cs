@@ -20,9 +20,9 @@ namespace Weather2EB.Data
    {
     timestampedforcast _temp = new timestampedforcast();
     _temp.time = ret.hourly.time[i];
-    _temp.temp = ret.hourly.temperature_2m[i];
+    _temp.temp = (int) ret.hourly.temperature_2m[i];
     _temp.precip = ret.hourly.precipitation_probability[i];
-    _temp.windspeed = ret.hourly.wind_speed_10m[i];
+    _temp.windspeed = (int) ret.hourly.wind_speed_10m[i];
     returner.Add(_temp);
    }
 

@@ -42,13 +42,13 @@
 }
 
 .ampmsec {
-  margin-right:25px;
+  margin-right: 25px;
 }
 
 .ampm {
   position: relative;
   font-size: 90px;
-  top:15px;
+  top: 15px;
 }
 
 .sec {
@@ -58,43 +58,42 @@
 }
 
 .dateContainer {
-
   height: 100%;
 }
 
 .date {
   position: relative;
-  top:15px;
-  text-transform:uppercase;
-  font-size:80px;
+  top: 15px;
+  text-transform: uppercase;
+  font-size: 80px;
 }
 
 .year {
-  text-align:center;
+  text-align: center;
   text-transform: uppercase;
   font-size: 40px;
 }
 
-.currentConainer{
-  width:100%;
+.currentConainer {
+  width: 100%;
   height: 20%;
-  display:flex;
+  display: flex;
 }
 
-.currentConditions{
-  display:flex;
+.currentConditions {
+  display: flex;
 }
 
-.currentTemp{
-  position:relative;
+.currentTemp {
+  position: relative;
   font-size: 80px;
-  top:-20px;
+  top: -20px;
 }
 
 .sunriseSunset {
   margin-left: auto;
   width: 30%;
-  font-size:30px!important;
+  font-size: 30px !important;
 }
 
 .currentTempLabel {
@@ -108,6 +107,59 @@
   font-size: 30px;
   text-align: center;
 }
+
+
+
+.forecastContianer {
+  
+}
+
+.forecastLabel {
+}
+
+.Forecasts {
+  display: inline-flex;
+  width: 100%;
+}
+
+.ForecastObject {
+  border: solid white 3px;
+  border-radius: 10px 10px 10px 10px;
+  padding: 10px;
+  margin:auto;
+  line-height: 1.5em;
+  font-size: 2.5em;
+}
+
+.ForecastTimestamp {
+  border-bottom: 2px solid white;
+  margin-bottom: 10px;
+}
+
+.ForecastTemperature {
+  
+}
+
+  .ForecastTemperature span {
+    font-size: .75em;
+    float: right;
+  }
+
+.ForecastPercipitation {
+}
+
+  .ForecastPercipitation span {
+    font-size: .75em;
+    float: right;
+  }
+
+.ForecastWind {
+}
+
+  .ForecastWind span {
+    font-size: .75em;
+    float: right;
+  }
 
 .credits {
   position: absolute;

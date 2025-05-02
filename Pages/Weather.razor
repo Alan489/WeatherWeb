@@ -1,4 +1,5 @@
 ﻿@page "/weather/{zip}"
+@using System.Text.Json
 @using Weather2EB.Data
 @inject WeatherForecastService ForecastService
 @inject ZipService zipService
@@ -66,6 +67,30 @@
      </div>
     </div>
    </div>
+   <div class="forecastContianer">
+    <div class="forecastLabel">
+
+    </div>
+    <div class="Forecasts">
+     @foreach (timestampedforcast forecast in forecasts.Where(a => a.time > DateTime.Now && a.time <= DateTime.Now.AddHours(3)))
+     {
+      <div class="ForecastObject">
+       <div class="ForecastTimestamp">
+        @forecast.time.ToString("h:00 tt")
+       </div>
+       <div class="ForecastTemperature">
+        <i class="fa-solid fa-temperature-half"></i> <span>@forecast.temp°F</span>
+       </div>
+       <div class="ForecastPercipitation">
+        <i class="fa-solid fa-droplet"></i> <span>@forecast.precip%</span>
+       </div>
+       <div class="ForecastWind">
+        <i class="fa-solid fa-wind"></i> <span>@forecast.windspeed MPH</span>
+       </div>
+      </div>
+     }
+    </div>
+   </div>
   }
  </div>
  <div class="credits">
@@ -127,6 +152,7 @@
   City = await zipService.getCityFromZip(zip);
   if (City == null) return;
   forecasts = await ForecastService.getForecast(City.lat, City.lng);
+  Console.WriteLine(JsonSerializer.Serialize(forecasts));
   if (forecasts == null) return;
   cityName = City.City;
   stateName = City.State;
